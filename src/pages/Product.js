@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Box,
     Grid,
@@ -14,16 +14,32 @@ import {
     useDisclosure,
 } from "@chakra-ui/react";
 import { FaShoppingCart } from "react-icons/fa";
+import { useParams } from "react-router-dom";
 
 const Product = () => {
+    const id = useParams().id;
+
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [product, setProduct] = useState({
-        title: "Product Title",
-        description:
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
-        price: "$9.99",
-        image: "https://cdn.shopify.com/s/files/1/0567/8048/8865/products/3-01_540x.jpg?v=1624370401",
+        title: "",
+        description: "",
+        price: "",
+        image: "",
     });
+
+    useEffect(() => {
+        const fetchProduct = async () => {
+            try {
+                const product = await fetch(
+                    `http://localhost:5000/api/product/single/${id}`
+                );
+                const pObj = await product.json();
+
+                setProduct(pObj);
+            } catch (err) {}
+        };
+        fetchProduct();
+    }, []);
 
     const handleBuy = () => {
         onOpen();
@@ -37,7 +53,7 @@ const Product = () => {
                 </Box>
                 <Box>
                     <Text fontSize="2xl" fontWeight="bold" mb={8}>
-                        {product.title}
+                        {product.name}
                     </Text>
                     <Text fontSize="lg" color="gray.600" mb={8}>
                         {product.description}

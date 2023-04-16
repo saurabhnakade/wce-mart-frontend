@@ -10,6 +10,7 @@ import {
     Input,
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
+import { NavLink, useHistory } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
     const handleClick = () => {};
@@ -38,21 +39,24 @@ const ProductCard = ({ product }) => {
             <Text mt={4} fontSize="xl" fontWeight="bold">
                 {product.name}
             </Text>
-            <Button
-                colorScheme="green"
-                size="sm"
-                mt={4}
-                onClick={handleClick}
-                leftIcon={<FaSearch />}
-            >
-                View
-            </Button>
+            <NavLink to={`/product/${product.id}`}>
+                <Button
+                    colorScheme="green"
+                    size="sm"
+                    mt={4}
+                    onClick={handleClick}
+                    leftIcon={<FaSearch />}
+                >
+                    View
+                </Button>
+            </NavLink>
         </Box>
     );
 };
 
 const AllProducts = () => {
     const [products, setProducts] = useState([]);
+    const history = useHistory();
 
     useEffect(() => {
         const fetchAllProducts = async () => {
