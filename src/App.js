@@ -1,25 +1,78 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { ChakraProvider } from "@chakra-ui/react";
+import Navbar from "./components/Navbar";
+import CreateProduct from "./pages/CreateProduct";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
+import MyProducts from "./pages/MyProducts";
+import AllProducts from "./pages/AllProducts";
+import Product from "./pages/Product";
+import {
+    BrowserRouter as Router,
+    Route,
+    Redirect,
+    Switch,
+} from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import AuthContext from "./context/auth-context";
+import useAuth from "./hooks/auth-hook";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+const App = () => {
+    const { token, login, logout, userId, name } = useAuth();
+
+    let routes;
+    if (token) {
+        routes = (
+            <Switch>
+                <Route path="/all" exact>
+                    <AllProducts />
+                </Route>
+                <Route path="/create" exact>
+                    <CreateProduct />
+                </Route>
+                <Route path="/myproducts/:id" exact>
+                    <MyProducts />
+                </Route>
+                <Route path="/product/:id" exact>
+                    <Product />
+                </Route>
+                <Redirect to="/all" />
+            </Switch>
+        );
+    } else {
+        routes = (
+            <Switch>
+                <Route path="/" exact>
+                    <HomePage />
+                </Route>
+                <Route path="/login" exact>
+                    <LoginPage />
+                </Route>
+                <Route path="/signup" exact>
+                    <SignUpPage />
+                </Route>
+                <Redirect to="/" />
+            </Switch>
+        );
+    }
+
+    return (
+        <AuthContext.Provider
+            value={{
+                isLoggedIn: !!token,
+                token: token,
+                userId: userId,
+                name: name,
+                login: login,
+                logout: logout,
+            }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+            <ChakraProvider>
+                {!!token && <Navbar />}
+                <Router>{routes}</Router>
+            </ChakraProvider>
+        </AuthContext.Provider>
+    );
+};
 
 export default App;
