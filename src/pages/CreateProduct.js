@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
     Box,
     Button,
@@ -11,8 +11,15 @@ import {
     Image,
     useToast,
 } from "@chakra-ui/react";
+import AuthContext from "../context/auth-context";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../firebase/firebase";
+import { useHistory } from "react-router-dom";
 
 const CreateProduct = () => {
+    const auth = useContext(AuthContext);
+    const history = useHistory();
+
     const [product, setProduct] = useState({
         name: "",
         description: "",
@@ -33,10 +40,54 @@ const CreateProduct = () => {
         setImagePreview(URL.createObjectURL(file));
     };
 
-    const handleSubmit = () => {
-        // Perform form submission logic here
-        // e.g. make an API call, dispatch an action, etc.
-        // using the product state object
+    const handleSubmit = async () => {
+        let imgUrl;
+        try {
+            // Upload images to Firebase Storage
+            const storageRef = ref(
+                storage,
+                `imagesWM/${Date.now().toString()}`
+            );
+            const metadata = { contentType: product.image.type };
+            await uploadBytesResumable(storageRef, product.image, metadata);
+            const url = await getDownloadURL(storageRef);
+            imgUrl = url;
+
+            console.log(imgUrl);
+            console.log(auth.id);
+
+            let body = {
+                name: product.name,
+                description: product.description,
+                image: imgUrl,
+                price: product.price,
+                status: "not sold",
+                sellersId: auth.id,
+            };
+
+            const response = await fetch(
+                "http://localhost:5000/api/product/create",
+                {
+                    method: "POST",
+                    body: JSON.stringify(body),
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + auth.token,
+                    },
+                }
+            );
+            history.push("/myproducts");
+        } catch (error) {
+            console.log(error.message);
+            toast({
+                title: "Not able to create",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+            return;
+        }
+
         toast({
             title: "Product created",
             status: "success",
@@ -90,7 +141,7 @@ const CreateProduct = () => {
                             alt="Product Image"
                             mt={2}
                             borderRadius="md"
-                            boxSize="200px"
+                            objectFit="contain"
                         />
                     )}
                 </FormControl>
@@ -109,12 +160,12 @@ const CreateProduct = () => {
                     size="lg"
                     fontSize="md"
                     width="sm"
+                    onClick={handleSubmit}
                 >
                     Create Product
                 </Button>
             </VStack>
         </Box>
-        
     );
 };
 

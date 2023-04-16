@@ -135,16 +135,15 @@ const SignUpPage = () => {
                     >
                         Sign up
                     </Button>
-                    <NavLink to="/">
-                        <Button
-                            type="submit"
-                            colorScheme="green"
-                            size="lg"
-                            fontSize="md"
-                        >
-                            Back to home
-                        </Button>
-                    </NavLink>
+
+                    <Button
+                        type="submit"
+                        colorScheme="green"
+                        size="lg"
+                        fontSize="md"
+                    >
+                        <NavLink to="/">Back to home</NavLink>
+                    </Button>
                 </Stack>
             </form>
         </Box>

@@ -13,7 +13,7 @@ const useAuth = () => {
         localStorage.setItem(
             "userData",
             JSON.stringify({
-                userId: uid,
+                id: uid,
                 token: token,
                 name: name,
             })
@@ -28,17 +28,11 @@ const useAuth = () => {
 
     useEffect(() => {
         const storedData = JSON.parse(localStorage.getItem("userData"));
-        if (
-            storedData &&
-            storedData.token 
-        ) {
-            login(
-                storedData.userId,
-                storedData.token,
-                storedData.name,
-            );
+        if (storedData && storedData.token) {
+            login(storedData.id, storedData.token, storedData.name);
         }
     }, [login, name]);
+
 
     return { token, login, logout, id, name };
 };

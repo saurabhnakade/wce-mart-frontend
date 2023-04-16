@@ -18,7 +18,7 @@ import AuthContext from "./context/auth-context";
 import useAuth from "./hooks/auth-hook";
 
 const App = () => {
-    const { token, login, logout, userId, name } = useAuth();
+    const { token, login, logout, id, name } = useAuth();
 
     let routes;
     if (token) {
@@ -30,7 +30,7 @@ const App = () => {
                 <Route path="/create" exact>
                     <CreateProduct />
                 </Route>
-                <Route path="/myproducts/:id" exact>
+                <Route path="/myproducts" exact>
                     <MyProducts />
                 </Route>
                 <Route path="/product/:id" exact>
@@ -61,15 +61,17 @@ const App = () => {
             value={{
                 isLoggedIn: !!token,
                 token: token,
-                userId: userId,
+                id: id,
                 name: name,
                 login: login,
                 logout: logout,
             }}
         >
             <ChakraProvider>
-                {!!token && <Navbar />}
-                <Router>{routes}</Router>
+                <Router>
+                    {!!token && <Navbar />}
+                    {routes}
+                </Router>
             </ChakraProvider>
         </AuthContext.Provider>
     );

@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Box, Flex, Text, Button, Stack } from "@chakra-ui/react";
 import AuthContext from "../context/auth-context";
+import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
     const auth = useContext(AuthContext);
@@ -21,16 +22,22 @@ const Navbar = () => {
             <Box>
                 <Stack direction="row" spacing={4}>
                     {auth.isLoggedIn && (
-                        <Button disabled colorScheme="purple" size="md">
-                            {auth.name}
-                        </Button>
+                        <NavLink to="/all">
+                            <Button disabled colorScheme="purple" size="md">
+                                {auth.name}
+                            </Button>
+                        </NavLink>
                     )}
-                    <Button colorScheme="purple" size="md">
-                        My Products
-                    </Button>
-                    <Button colorScheme="purple" size="md">
-                        Create Product
-                    </Button>
+                    <NavLink to="/myproducts/123">
+                        <Button colorScheme="purple" size="md">
+                            My Products
+                        </Button>
+                    </NavLink>
+                    <NavLink to="/create">
+                        <Button colorScheme="purple" size="md">
+                            Create Product
+                        </Button>
+                    </NavLink>
                     <Button
                         colorScheme="purple"
                         size="md"
