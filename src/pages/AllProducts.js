@@ -5,12 +5,11 @@ import {
     Image,
     Text,
     Grid,
-    useToast,
-    IconButton,
+    // useToast,
     Input,
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
     const handleClick = () => {};
@@ -56,7 +55,6 @@ const ProductCard = ({ product }) => {
 
 const AllProducts = () => {
     const [products, setProducts] = useState([]);
-    const history = useHistory();
 
     useEffect(() => {
         const fetchAllProducts = async () => {
@@ -75,7 +73,7 @@ const AllProducts = () => {
 
     const [searchTerm, setSearchTerm] = useState(""); // State to store search term
 
-    const toast = useToast();
+    // const toast = useToast();
 
     const handleClick = () => {};
 

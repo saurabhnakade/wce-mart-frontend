@@ -39,7 +39,7 @@ const Product = () => {
             } catch (err) {}
         };
         fetchProduct();
-    }, []);
+    }, [id]);
 
     const handleBuy = () => {
         onOpen();
