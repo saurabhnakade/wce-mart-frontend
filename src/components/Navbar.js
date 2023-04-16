@@ -28,7 +28,7 @@ const Navbar = () => {
                             </Button>
                         </NavLink>
                     )}
-                    <NavLink to="/myproducts/123">
+                    <NavLink to="/myproducts">
                         <Button colorScheme="purple" size="md">
                             My Products
                         </Button>
