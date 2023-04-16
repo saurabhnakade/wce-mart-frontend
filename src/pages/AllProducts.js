@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Box,
     Button,
@@ -52,34 +52,22 @@ const ProductCard = ({ product }) => {
 };
 
 const AllProducts = () => {
-    const [products, setProducts] = useState([
-        { id: 1, name: "Product 1", image: "https://via.placeholder.com/300" },
-        {
-            id: 2,
-            name: "Product 2",
-            image: "https://via.placeholder.com/300",
-        },
-        {
-            id: 3,
-            name: "Product 3",
-            image: "https://via.placeholder.com/300",
-        },
-        {
-            id: 4,
-            name: "Product 4",
-            image: "https://via.placeholder.com/300",
-        },
-        {
-            id: 5,
-            name: "Product 5",
-            image: "https://via.placeholder.com/300",
-        },
-        {
-            id: 6,
-            name: "Badminton 6",
-            image: "https://via.placeholder.com/300",
-        },
-    ]);
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        const fetchAllProducts = async () => {
+            try {
+                const response = await fetch(
+                    "http://localhost:5000/api/product/all"
+                );
+                const p = await response.json();
+                setProducts(p);
+            } catch (err) {
+                console.log(err.message);
+            }
+        };
+        fetchAllProducts();
+    }, []);
 
     const [searchTerm, setSearchTerm] = useState(""); // State to store search term
 
