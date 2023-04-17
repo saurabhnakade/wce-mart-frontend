@@ -67,7 +67,7 @@ const Product = () => {
 
             toast({
                 title: "Contact",
-                description: `${user.name + " -> " + user.mobile}`,
+                description: `${user.name + " → " + user.mobile}`,
                 status: "info",
                 duration: null,
                 isClosable: true,
