@@ -13,6 +13,7 @@ import {
 import { FaSearch } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import AuthContext from "../context/auth-context";
+import url from "../firebase/config";
 
 const ProductCard = ({ product }) => {
     return (
@@ -64,7 +65,7 @@ const AllProducts = () => {
             setIsLoading(true);
             try {
                 const response = await fetch(
-                    "http://localhost:5000/api/product/all"
+                    `${url}/api/product/all`
                 );
                 const p = await response.json();
                 if (p.message) {

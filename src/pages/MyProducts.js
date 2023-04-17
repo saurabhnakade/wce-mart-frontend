@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { FaTrash } from "react-icons/fa";
 import AuthContext from "../context/auth-context";
+import url from "../firebase/config";
 
 const ProductCard = ({ product, onDelete }) => {
     const [isDeleting, setIsDeleting] = useState(false);
@@ -107,7 +108,7 @@ const MyProducts = () => {
             setIsLoading(true);
             try {
                 const response = await fetch(
-                    `http://localhost:5000/api/product/myproducts/${auth.id}`,
+                    `${url}/api/product/myproducts/${auth.id}`,
                     {
                         method: "GET",
                         headers: {
@@ -136,7 +137,7 @@ const MyProducts = () => {
     const handleDelete = async (productId) => {
         try {
             const res = await fetch(
-                `http://localhost:5000/api/product/delete/${productId}`,
+                `${url}/api/product/delete/${productId}`,
                 {
                     method: "DELETE",
                     headers: {

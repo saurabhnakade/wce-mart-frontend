@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import AuthContext from "../context/auth-context";
 import { NavLink } from "react-router-dom";
+import url from "../firebase/config";
 
 const LoginPage = () => {
     const auth = useContext(AuthContext);
@@ -37,19 +38,16 @@ const LoginPage = () => {
 
         try {
             setIsLoading(true);
-            const response = await fetch(
-                "http://localhost:5000/api/user/login",
-                {
-                    method: "POST",
-                    body: JSON.stringify({
-                        username: formData.username,
-                        password: formData.password,
-                    }),
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
+            const response = await fetch(`${url}/api/user/login`, {
+                method: "POST",
+                body: JSON.stringify({
+                    username: formData.username,
+                    password: formData.password,
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
             const user = await response.json();
             if (user.message === "User Doesnot exist") {
                 toast({
@@ -108,7 +106,7 @@ const LoginPage = () => {
             <form onSubmit={handleSubmit}>
                 <Stack spacing={4}>
                     <FormControl isRequired>
-                        <FormLabel>Username</FormLabel>
+                        <FormLabel>Username / Email</FormLabel>
                         <Input
                             type="text"
                             name="username"

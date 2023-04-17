@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { FaShoppingCart } from "react-icons/fa";
 import { useParams } from "react-router-dom";
+import url from "../firebase/config";
 
 const Product = () => {
     const id = useParams().id;
@@ -33,7 +34,7 @@ const Product = () => {
         const fetchProduct = async () => {
             try {
                 const product = await fetch(
-                    `http://localhost:5000/api/product/single/${id}`
+                    `${url}/api/product/single/${id}`
                 );
                 const pObj = await product.json();
 
@@ -61,7 +62,7 @@ const Product = () => {
         const userId = product.sellersId;
         try {
             const response = await fetch(
-                `http://localhost:5000/api/user/${userId}`
+                `${url}/api/user/${userId}`
             );
             const user = await response.json();
 

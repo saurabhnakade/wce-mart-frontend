@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 import AuthContext from "../context/auth-context";
+import url from "../firebase/config";
 
 const SignUpPage = () => {
     const auth = useContext(AuthContext);
@@ -41,7 +42,7 @@ const SignUpPage = () => {
         try {
             setIsLoading(true);
             const response = await fetch(
-                "http://localhost:5000/api/user/register",
+                `${url}/api/user/register`,
                 {
                     method: "POST",
                     body: JSON.stringify({
@@ -107,7 +108,7 @@ const SignUpPage = () => {
             <form onSubmit={handleSubmit}>
                 <Stack spacing={4}>
                     <FormControl isRequired>
-                        <FormLabel>Username</FormLabel>
+                        <FormLabel>Username / Email</FormLabel>
                         <Input
                             type="text"
                             name="username"

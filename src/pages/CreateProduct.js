@@ -16,6 +16,7 @@ import AuthContext from "../context/auth-context";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../firebase/firebase";
 import { useHistory } from "react-router-dom";
+import url from "../firebase/config";
 
 const CreateProduct = () => {
     const auth = useContext(AuthContext);
@@ -54,8 +55,8 @@ const CreateProduct = () => {
             );
             const metadata = { contentType: product.image.type };
             await uploadBytesResumable(storageRef, product.image, metadata);
-            const url = await getDownloadURL(storageRef);
-            imgUrl = url;
+            const urlC = await getDownloadURL(storageRef);
+            imgUrl = urlC;
 
             let body = {
                 name: product.name,
@@ -66,7 +67,7 @@ const CreateProduct = () => {
                 sellersId: auth.id,
             };
 
-            await fetch("http://localhost:5000/api/product/create", {
+            await fetch(`${url}/api/product/create`, {
                 method: "POST",
                 body: JSON.stringify(body),
                 headers: {
