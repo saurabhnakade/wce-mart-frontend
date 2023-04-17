@@ -20,6 +20,7 @@ import AuthContext from "../context/auth-context";
 
 const ProductCard = ({ product, onDelete }) => {
     const [isDeleting, setIsDeleting] = useState(false);
+    const toast = useToast();
 
     const handleDeleteConfirmation = () => {
         setIsDeleting(true);
@@ -114,7 +115,14 @@ const MyProducts = () => {
                 const p = await response.json();
                 setProducts(p.products);
             } catch (err) {
-                console.log(err.message);
+                toast({
+                    title: "Error",
+                    description:
+                        "Something went wrong. Please try again later.",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
             }
         };
         fetchMyProducts();
@@ -133,14 +141,22 @@ const MyProducts = () => {
                     },
                 }
             );
-        } catch (err) {}
-        setProducts(products.filter((product) => product.id !== productId));
-        toast({
-            title: "Product deleted",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-        });
+            setProducts(products.filter((product) => product.id !== productId));
+            toast({
+                title: "Product deleted",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+            });
+        } catch (err) {
+            toast({
+                title: "Error",
+                description: "Something went wrong. Please try again later.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+        }
     };
 
     return (

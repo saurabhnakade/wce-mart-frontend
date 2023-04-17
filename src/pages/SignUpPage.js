@@ -8,12 +8,14 @@ import {
     Heading,
     Input,
     Stack,
+    useToast,
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 import AuthContext from "../context/auth-context";
 
 const SignUpPage = () => {
     const auth = useContext(AuthContext);
+    const toast = useToast();
 
     const [formData, setFormData] = useState({
         username: "",
@@ -62,7 +64,13 @@ const SignUpPage = () => {
 
             auth.login(user.id, user.token, user.name);
         } catch (err) {
-            console.log(err);
+            toast({
+                title: "Error",
+                description: "Something went wrong. Please try again later.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
         }
     };
 

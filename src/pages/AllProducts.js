@@ -7,14 +7,13 @@ import {
     Grid,
     // useToast,
     Input,
+    useToast,
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import AuthContext from "../context/auth-context";
 
 const ProductCard = ({ product }) => {
-    const handleClick = () => {};
-
     return (
         <Box
             maxW="400px"
@@ -44,7 +43,6 @@ const ProductCard = ({ product }) => {
                     colorScheme="green"
                     size="sm"
                     mt={4}
-                    onClick={handleClick}
                     leftIcon={<FaSearch />}
                 >
                     View
@@ -57,6 +55,7 @@ const ProductCard = ({ product }) => {
 const AllProducts = () => {
     const [products, setProducts] = useState([]);
     const auth = useContext(AuthContext);
+    const toast = useToast();
 
     useEffect(() => {
         const fetchAllProducts = async () => {
@@ -67,17 +66,20 @@ const AllProducts = () => {
                 const p = await response.json();
                 setProducts(p.filter((pi) => pi.sellersId != auth.id));
             } catch (err) {
-                console.log(err.message);
+                toast({
+                    title: "Error",
+                    description:
+                        "Something went wrong. Please try again later.",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
             }
         };
         fetchAllProducts();
     }, []);
 
     const [searchTerm, setSearchTerm] = useState(""); // State to store search term
-
-    // const toast = useToast();
-
-    const handleClick = () => {};
 
     // Function to filter products based on search term
     const handleSearch = (event) => {
@@ -102,11 +104,7 @@ const AllProducts = () => {
 
             <Grid templateColumns="repeat(3, 1fr)" gap={4}>
                 {filteredProducts.map((product) => (
-                    <ProductCard
-                        key={product.id}
-                        product={product}
-                        onClick={handleClick}
-                    />
+                    <ProductCard key={product.id} product={product} />
                 ))}
             </Grid>
         </Box>

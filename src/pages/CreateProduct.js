@@ -78,9 +78,9 @@ const CreateProduct = () => {
             );
             history.push("/myproducts");
         } catch (error) {
-            console.log(error.message);
             toast({
-                title: "Not able to create",
+                title: "Error",
+                description: "Something went wrong. Please try again later.",
                 status: "error",
                 duration: 3000,
                 isClosable: true,

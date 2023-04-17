@@ -38,7 +38,16 @@ const Product = () => {
                 const pObj = await product.json();
 
                 setProduct(pObj);
-            } catch (err) {}
+            } catch (err) {
+                toast({
+                    title: "Error",
+                    description:
+                        "Something went wrong. Please try again later.",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+            }
         };
         fetchProduct();
     }, [id]);

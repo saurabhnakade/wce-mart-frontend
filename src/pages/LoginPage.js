@@ -56,10 +56,9 @@ const LoginPage = () => {
 
             auth.login(user.id, user.token, user.name);
         } catch (err) {
-            console.log(err.message);
             toast({
-                title: "Something Went Wrong",
-                description: "",
+                title: "Error",
+                description: "Something went wrong. Please try again later.",
                 status: "error",
                 duration: 3000,
                 isClosable: true,
