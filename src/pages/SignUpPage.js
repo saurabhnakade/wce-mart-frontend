@@ -3,7 +3,6 @@ import {
     Box,
     Button,
     FormControl,
-    FormErrorMessage,
     FormLabel,
     Heading,
     Input,
@@ -21,13 +20,6 @@ const SignUpPage = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const [formData, setFormData] = useState({
-        username: "",
-        name: "",
-        mobile: "",
-        password: "",
-    });
-
-    const [formErrors, setFormErrors] = useState({
         username: "",
         name: "",
         mobile: "",
@@ -97,7 +89,7 @@ const SignUpPage = () => {
             </Heading>
             <form onSubmit={handleSubmit}>
                 <Stack spacing={4}>
-                    <FormControl isRequired isInvalid={!!formErrors.username}>
+                    <FormControl isRequired>
                         <FormLabel>Username</FormLabel>
                         <Input
                             type="text"
@@ -105,12 +97,9 @@ const SignUpPage = () => {
                             value={formData.username}
                             onChange={handleChange}
                         />
-                        <FormErrorMessage>
-                            {formErrors.username}
-                        </FormErrorMessage>
                     </FormControl>
 
-                    <FormControl isRequired isInvalid={!!formErrors.name}>
+                    <FormControl isRequired>
                         <FormLabel>Name</FormLabel>
                         <Input
                             type="text"
@@ -118,9 +107,8 @@ const SignUpPage = () => {
                             value={formData.name}
                             onChange={handleChange}
                         />
-                        <FormErrorMessage>{formErrors.name}</FormErrorMessage>
                     </FormControl>
-                    <FormControl isRequired isInvalid={!!formErrors.mobile}>
+                    <FormControl isRequired>
                         <FormLabel>Mobile No.</FormLabel>
                         <Input
                             type="tel"
@@ -128,9 +116,8 @@ const SignUpPage = () => {
                             value={formData.mobile}
                             onChange={handleChange}
                         />
-                        <FormErrorMessage>{formErrors.mobile}</FormErrorMessage>
                     </FormControl>
-                    <FormControl isRequired isInvalid={!!formErrors.password}>
+                    <FormControl isRequired>
                         <FormLabel>Password</FormLabel>
                         <Input
                             type="password"
@@ -138,9 +125,6 @@ const SignUpPage = () => {
                             value={formData.password}
                             onChange={handleChange}
                         />
-                        <FormErrorMessage>
-                            {formErrors.password}
-                        </FormErrorMessage>
                     </FormControl>
                     <Button
                         type="submit"

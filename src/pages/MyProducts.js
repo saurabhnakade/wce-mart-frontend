@@ -14,13 +14,13 @@ import {
     ModalBody,
     ModalCloseButton,
     Center,
+    Spinner,
 } from "@chakra-ui/react";
 import { FaTrash } from "react-icons/fa";
 import AuthContext from "../context/auth-context";
 
 const ProductCard = ({ product, onDelete }) => {
     const [isDeleting, setIsDeleting] = useState(false);
-    const toast = useToast();
 
     const handleDeleteConfirmation = () => {
         setIsDeleting(true);
@@ -99,9 +99,12 @@ const ProductCard = ({ product, onDelete }) => {
 const MyProducts = () => {
     const [products, setProducts] = useState([]); // your initial products data
     const auth = useContext(AuthContext);
+    const [isLoading, setIsLoading] = useState(false);
+    const toast = useToast();
 
     useEffect(() => {
         const fetchMyProducts = async () => {
+            setIsLoading(true);
             try {
                 const response = await fetch(
                     `http://localhost:5000/api/product/myproducts/${auth.id}`,
@@ -114,7 +117,9 @@ const MyProducts = () => {
                 );
                 const p = await response.json();
                 setProducts(p.products);
+                setIsLoading(false);
             } catch (err) {
+                setIsLoading(false);
                 toast({
                     title: "Error",
                     description:
@@ -126,9 +131,7 @@ const MyProducts = () => {
             }
         };
         fetchMyProducts();
-    }, []);
-
-    const toast = useToast();
+    }, [auth, toast]);
 
     const handleDelete = async (productId) => {
         try {
@@ -161,15 +164,21 @@ const MyProducts = () => {
 
     return (
         <Box p={4}>
-            <Grid templateColumns="repeat(3, 1fr)" gap={4}>
-                {products.map((product) => (
-                    <ProductCard
-                        key={product.id}
-                        product={product}
-                        onDelete={handleDelete}
-                    />
-                ))}
-            </Grid>
+            {isLoading ? (
+                <Center h="100vh">
+                    <Spinner size="xl" />
+                </Center>
+            ) : (
+                <Grid templateColumns="repeat(3, 1fr)" gap={4}>
+                    {products.map((product) => (
+                        <ProductCard
+                            key={product.id}
+                            product={product}
+                            onDelete={handleDelete}
+                        />
+                    ))}
+                </Grid>
+            )}
         </Box>
     );
 };

@@ -3,7 +3,6 @@ import {
     Box,
     Button,
     FormControl,
-    FormErrorMessage,
     FormLabel,
     Heading,
     Input,
@@ -35,7 +34,7 @@ const LoginPage = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        
+
         try {
             setIsLoading(true);
             const response = await fetch(

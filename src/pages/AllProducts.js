@@ -5,9 +5,10 @@ import {
     Image,
     Text,
     Grid,
-    // useToast,
     Input,
     useToast,
+    Spinner,
+    Center,
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
@@ -56,16 +57,20 @@ const AllProducts = () => {
     const [products, setProducts] = useState([]);
     const auth = useContext(AuthContext);
     const toast = useToast();
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const fetchAllProducts = async () => {
+            setIsLoading(true);
             try {
                 const response = await fetch(
                     "http://localhost:5000/api/product/all"
                 );
                 const p = await response.json();
                 setProducts(p.filter((pi) => pi.sellersId !== auth.id));
+                setIsLoading(false);
             } catch (err) {
+                setIsLoading(false);
                 toast({
                     title: "Error",
                     description:
@@ -102,11 +107,17 @@ const AllProducts = () => {
                 />
             </Box>
 
-            <Grid templateColumns="repeat(3, 1fr)" gap={4}>
-                {filteredProducts.map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                ))}
-            </Grid>
+            {isLoading ? (
+                <Center h="100vh">
+                    <Spinner size="xl" />
+                </Center>
+            ) : (
+                <Grid templateColumns="repeat(3, 1fr)" gap={4}>
+                    {filteredProducts.map((product) => (
+                        <ProductCard key={product.id} product={product} />
+                    ))}
+                </Grid>
+            )}
         </Box>
     );
 };

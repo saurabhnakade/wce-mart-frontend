@@ -50,7 +50,7 @@ const Product = () => {
             }
         };
         fetchProduct();
-    }, [id]);
+    }, [id, toast]);
 
     const handleBuy = () => {
         onOpen();
