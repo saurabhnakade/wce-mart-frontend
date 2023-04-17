@@ -135,7 +135,7 @@ const MyProducts = () => {
 
     const handleDelete = async (productId) => {
         try {
-            await fetch(
+            const res = await fetch(
                 `http://localhost:5000/api/product/delete/${productId}`,
                 {
                     method: "DELETE",
@@ -144,6 +144,9 @@ const MyProducts = () => {
                     },
                 }
             );
+            if (await res.json().message) {
+                throw new Error("Error");
+            }
             setProducts(products.filter((product) => product.id !== productId));
             toast({
                 title: "Product deleted",

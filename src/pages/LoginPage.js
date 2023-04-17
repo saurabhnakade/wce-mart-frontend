@@ -51,6 +51,31 @@ const LoginPage = () => {
                 }
             );
             const user = await response.json();
+            if (user.message === "User Doesnot exist") {
+                toast({
+                    title: "Error",
+                    description: "User doesnot Exist",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+            } else if (user.message === "Invalid Password") {
+                toast({
+                    title: "Error",
+                    description: "Invalid Password",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+            } else if (user.message) {
+                toast({
+                    title: "Error",
+                    description: "Something Went Wrong",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+            }
             setIsLoading(false);
 
             auth.login(user.id, user.token, user.name);

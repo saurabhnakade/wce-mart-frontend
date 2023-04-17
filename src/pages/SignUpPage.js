@@ -57,6 +57,23 @@ const SignUpPage = () => {
             );
 
             const user = await response.json();
+            if (user.message === "User Already Exists") {
+                toast({
+                    title: "Error",
+                    description: "User Already Exists.",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+            } else if (user.message) {
+                toast({
+                    title: "Error",
+                    description: "Something Went Wrong",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+            }
 
             setIsLoading(false);
 

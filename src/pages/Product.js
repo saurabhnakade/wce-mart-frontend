@@ -65,6 +65,10 @@ const Product = () => {
             );
             const user = await response.json();
 
+            if(user.message){
+                throw new Error("Error");
+            }
+
             toast({
                 title: "Contact",
                 description: `${user.name + " → " + user.mobile}`,

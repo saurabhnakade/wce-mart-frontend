@@ -67,6 +67,9 @@ const AllProducts = () => {
                     "http://localhost:5000/api/product/all"
                 );
                 const p = await response.json();
+                if (p.message) {
+                    throw new Error("Error");
+                }
                 setProducts(p.filter((pi) => pi.sellersId !== auth.id));
                 setIsLoading(false);
             } catch (err) {
