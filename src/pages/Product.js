@@ -12,12 +12,14 @@ import {
     ModalFooter,
     ModalBody,
     useDisclosure,
+    useToast,
 } from "@chakra-ui/react";
 import { FaShoppingCart } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 
 const Product = () => {
     const id = useParams().id;
+    const toast = useToast();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [product, setProduct] = useState({
@@ -43,6 +45,33 @@ const Product = () => {
 
     const handleBuy = () => {
         onOpen();
+    };
+
+    const confirmBuyHandler = async () => {
+        onClose();
+        const userId = product.sellersId;
+        try {
+            const response = await fetch(
+                `http://localhost:5000/api/user/${userId}`
+            );
+            const user = await response.json();
+
+            toast({
+                title: "Contact",
+                description: `${user.name + " -> " + user.mobile}`,
+                status: "info",
+                duration: null,
+                isClosable: true,
+            });
+        } catch (err) {
+            toast({
+                title: "Error",
+                description: "Something went wrong. Please try again later.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+        }
     };
 
     return (
@@ -85,7 +114,7 @@ const Product = () => {
                             fontSize="lg"
                             colorScheme="green"
                             mr={3}
-                            onClick={onClose}
+                            onClick={confirmBuyHandler}
                         >
                             Yes
                         </Button>
