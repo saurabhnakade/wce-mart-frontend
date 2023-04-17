@@ -5,7 +5,7 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyCrgSPJ69CKrLS722DieGa2VFjyJsNw4ns",
+    apiKey: process.env.REACT_APP_API_KEY,
     authDomain: "college-mart-1a4f7.firebaseapp.com",
     projectId: "college-mart-1a4f7",
     storageBucket: "college-mart-1a4f7.appspot.com",

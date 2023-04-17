@@ -19,6 +19,7 @@ import {
 import { FaTrash } from "react-icons/fa";
 import AuthContext from "../context/auth-context";
 import url from "../firebase/config";
+import { storage } from "../firebase/firebase";
 
 const ProductCard = ({ product, onDelete }) => {
     const [isDeleting, setIsDeleting] = useState(false);
@@ -28,7 +29,7 @@ const ProductCard = ({ product, onDelete }) => {
     };
 
     const handleDelete = () => {
-        onDelete(product.id);
+        onDelete(product.id, product.image);
         setIsDeleting(false);
     };
 
@@ -134,17 +135,14 @@ const MyProducts = () => {
         fetchMyProducts();
     }, [auth, toast]);
 
-    const handleDelete = async (productId) => {
+    const handleDelete = async (productId, productUrl) => {
         try {
-            const res = await fetch(
-                `${url}/api/product/delete/${productId}`,
-                {
-                    method: "DELETE",
-                    headers: {
-                        Authorization: "Bearer " + auth.token,
-                    },
-                }
-            );
+            const res = await fetch(`${url}/api/product/delete/${productId}`, {
+                method: "DELETE",
+                headers: {
+                    Authorization: "Bearer " + auth.token,
+                },
+            });
             if (await res.json().message) {
                 throw new Error("Error");
             }
