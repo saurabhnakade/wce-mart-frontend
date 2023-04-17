@@ -122,7 +122,18 @@ const MyProducts = () => {
 
     const toast = useToast();
 
-    const handleDelete = (productId) => {
+    const handleDelete = async (productId) => {
+        try {
+            await fetch(
+                `http://localhost:5000/api/product/delete/${productId}`,
+                {
+                    method: "DELETE",
+                    headers: {
+                        Authorization: "Bearer " + auth.token,
+                    },
+                }
+            );
+        } catch (err) {}
         setProducts(products.filter((product) => product.id !== productId));
         toast({
             title: "Product deleted",

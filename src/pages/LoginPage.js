@@ -8,12 +8,14 @@ import {
     Heading,
     Input,
     Stack,
+    useToast,
 } from "@chakra-ui/react";
 import AuthContext from "../context/auth-context";
 import { NavLink } from "react-router-dom";
 
 const LoginPage = () => {
     const auth = useContext(AuthContext);
+    const toast = useToast();
     const [formData, setFormData] = useState({
         username: "",
         password: "",
@@ -55,6 +57,13 @@ const LoginPage = () => {
             auth.login(user.id, user.token, user.name);
         } catch (err) {
             console.log(err.message);
+            toast({
+                title: "Something Went Wrong",
+                description: "",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
         }
     };
 
@@ -114,7 +123,7 @@ const LoginPage = () => {
                         size="lg"
                         fontSize="md"
                     >
-                        <NavLink to="/">Back to home</NavLink>
+                        <NavLink to="/">Back to Home</NavLink>
                     </Button>
                 </Stack>
             </form>

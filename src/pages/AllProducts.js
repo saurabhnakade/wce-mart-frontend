@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
     Box,
     Button,
@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import AuthContext from "../context/auth-context";
 
 const ProductCard = ({ product }) => {
     const handleClick = () => {};
@@ -55,6 +56,7 @@ const ProductCard = ({ product }) => {
 
 const AllProducts = () => {
     const [products, setProducts] = useState([]);
+    const auth = useContext(AuthContext);
 
     useEffect(() => {
         const fetchAllProducts = async () => {
@@ -63,7 +65,7 @@ const AllProducts = () => {
                     "http://localhost:5000/api/product/all"
                 );
                 const p = await response.json();
-                setProducts(p);
+                setProducts(p.filter((pi) => pi.sellersId != auth.id));
             } catch (err) {
                 console.log(err.message);
             }

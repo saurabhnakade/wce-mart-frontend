@@ -25,25 +25,25 @@ function HomePage() {
                 <Text
                     fontSize="70"
                     fontWeight="bold"
-                    fontFamily={"Heading Font Name"}
+                    fontFamily={"sans-serif"}
                     textShadow={"md"}
                 >
-                    Wal Mart
+                    WCE MART
                 </Text>
             </Flex>
             <Box height="90vh">
                 <Center height="100%">
-                    <HStack spacing={8} align="center">
+                    <HStack spacing={30} align="center">
                         <Image
                             mb={20}
                             mr={75}
                             borderRadius={70}
-                            src="https://www-cdn.bigcommerce.com/assets/_1200x630_crop_center-center_82_none/4914CD_Abandoned-Cart_Thumbnail.jpg?mtime=1661380659"
+                            src="https://www.graphicsprings.com/filestorage/stencils/3055581cff0526602142cbb0bfba9fca.png?width=500&height=500"
                             alt="placeholder"
-                            height={580}
-                            width={960}
+                            height={750}
+                            width={860}
                         />
-                        <VStack spacing={10}>
+                        <VStack spacing={35}>
                             <NavLink to="/signup">
                                 <Button
                                     type="submit"
