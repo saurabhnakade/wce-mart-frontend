@@ -10,6 +10,7 @@ import {
     VStack,
     Image,
     useToast,
+    Spinner,
 } from "@chakra-ui/react";
 import AuthContext from "../context/auth-context";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
@@ -27,6 +28,7 @@ const CreateProduct = () => {
         price: "",
     });
     const [imagePreview, setImagePreview] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
     const toast = useToast();
 
     const handleInputChange = (e) => {
@@ -40,9 +42,11 @@ const CreateProduct = () => {
         setImagePreview(URL.createObjectURL(file));
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         let imgUrl;
         try {
+            setIsLoading(true);
             // Upload images to Firebase Storage
             const storageRef = ref(
                 storage,
@@ -70,8 +74,16 @@ const CreateProduct = () => {
                     Authorization: "Bearer " + auth.token,
                 },
             });
+            setIsLoading(false);
+            toast({
+                title: "Product created",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+            });
             history.push("/myproducts");
         } catch (error) {
+            setIsLoading(false);
             toast({
                 title: "Error",
                 description: "Something went wrong. Please try again later.",
@@ -81,13 +93,6 @@ const CreateProduct = () => {
             });
             return;
         }
-
-        toast({
-            title: "Product created",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-        });
     };
 
     return (
@@ -104,61 +109,67 @@ const CreateProduct = () => {
             <Heading as="h1" size="lg" textAlign="center" mb={6}>
                 Create a Product
             </Heading>
-            <VStack spacing={4}>
-                <FormControl isRequired id="name">
-                    <FormLabel>Name</FormLabel>
-                    <Input
-                        type="text"
-                        value={product.name}
-                        onChange={handleInputChange}
-                        name="name"
-                    />
-                </FormControl>
-                <FormControl isRequired id="description">
-                    <FormLabel>Description</FormLabel>
-                    <Textarea
-                        value={product.description}
-                        onChange={handleInputChange}
-                        name="description"
-                    />
-                </FormControl>
-                <FormControl isRequired id="image" alignItems="center">
-                    <FormLabel>Image</FormLabel>
-                    <Input
-                        type="file"
-                        onChange={handleImageChange}
-                        name="image"
-                    />
-                    {imagePreview && (
-                        <Image
-                            src={imagePreview}
-                            alt="Product Image"
-                            mt={2}
-                            borderRadius="md"
-                            objectFit="contain"
+            <form onSubmit={handleSubmit}>
+                <VStack spacing={4}>
+                    <FormControl isRequired id="name">
+                        <FormLabel>Name</FormLabel>
+                        <Input
+                            type="text"
+                            value={product.name}
+                            onChange={handleInputChange}
+                            name="name"
                         />
-                    )}
-                </FormControl>
-                <FormControl isRequired id="price">
-                    <FormLabel>Price</FormLabel>
-                    <Input
-                        type="number"
-                        value={product.price}
-                        onChange={handleInputChange}
-                        name="price"
-                    />
-                </FormControl>
-                <Button
-                    type="submit"
-                    colorScheme="purple"
-                    size="lg"
-                    fontSize="md"
-                    width="sm"
-                    onClick={handleSubmit}
-                >
-                    Create Product
-                </Button>
-            </VStack>
+                    </FormControl>
+                    <FormControl isRequired id="description">
+                        <FormLabel>Description</FormLabel>
+                        <Textarea
+                            value={product.description}
+                            onChange={handleInputChange}
+                            name="description"
+                        />
+                    </FormControl>
+                    <FormControl isRequired id="image" alignItems="center">
+                        <FormLabel>Image</FormLabel>
+                        <Input
+                            type="file"
+                            onChange={handleImageChange}
+                            name="image"
+                        />
+                        {imagePreview && (
+                            <Image
+                                src={imagePreview}
+                                alt="Product Image"
+                                mt={2}
+                                borderRadius="md"
+                                objectFit="contain"
+                            />
+                        )}
+                    </FormControl>
+                    <FormControl isRequired id="price">
+                        <FormLabel>Price</FormLabel>
+                        <Input
+                            type="number"
+                            value={product.price}
+                            onChange={handleInputChange}
+                            name="price"
+                        />
+                    </FormControl>
+                    <Button
+                        type="submit"
+                        colorScheme="purple"
+                        size="lg"
+                        fontSize="md"
+                        width="sm"
+                        isLoading={isLoading}
+                    >
+                        {isLoading ? (
+                            <Spinner size="sm" color="white" />
+                        ) : (
+                            "Create Product"
+                        )}
+                    </Button>
+                </VStack>
+            </form>
         </Box>
     );
 };

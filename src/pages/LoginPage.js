@@ -22,11 +22,6 @@ const LoginPage = () => {
         password: "",
     });
 
-    const [formErrors, setFormErrors] = useState({
-        username: "",
-        password: "",
-    });
-
     const handleChange = (event) => {
         const { name, value } = event.target;
 
@@ -40,7 +35,7 @@ const LoginPage = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+        
         try {
             setIsLoading(true);
             const response = await fetch(
@@ -88,7 +83,7 @@ const LoginPage = () => {
             </Heading>
             <form onSubmit={handleSubmit}>
                 <Stack spacing={4}>
-                    <FormControl isRequired isInvalid={!!formErrors.username}>
+                    <FormControl isRequired>
                         <FormLabel>Username</FormLabel>
                         <Input
                             type="text"
@@ -96,12 +91,9 @@ const LoginPage = () => {
                             value={formData.username}
                             onChange={handleChange}
                         />
-                        <FormErrorMessage>
-                            {formErrors.username}
-                        </FormErrorMessage>
                     </FormControl>
 
-                    <FormControl isRequired isInvalid={!!formErrors.password}>
+                    <FormControl isRequired>
                         <FormLabel>Password</FormLabel>
                         <Input
                             type="password"
@@ -109,9 +101,6 @@ const LoginPage = () => {
                             value={formData.password}
                             onChange={handleChange}
                         />
-                        <FormErrorMessage>
-                            {formErrors.password}
-                        </FormErrorMessage>
                     </FormControl>
                     <Button
                         type="submit"
