@@ -64,7 +64,7 @@ const AllProducts = () => {
                     "http://localhost:5000/api/product/all"
                 );
                 const p = await response.json();
-                setProducts(p.filter((pi) => pi.sellersId != auth.id));
+                setProducts(p.filter((pi) => pi.sellersId !== auth.id));
             } catch (err) {
                 toast({
                     title: "Error",
@@ -77,7 +77,7 @@ const AllProducts = () => {
             }
         };
         fetchAllProducts();
-    }, []);
+    }, [auth, toast]);
 
     const [searchTerm, setSearchTerm] = useState(""); // State to store search term
 

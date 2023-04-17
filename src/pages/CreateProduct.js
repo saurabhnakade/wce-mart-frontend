@@ -53,9 +53,6 @@ const CreateProduct = () => {
             const url = await getDownloadURL(storageRef);
             imgUrl = url;
 
-            console.log(imgUrl);
-            console.log(auth.id);
-
             let body = {
                 name: product.name,
                 description: product.description,
@@ -65,17 +62,14 @@ const CreateProduct = () => {
                 sellersId: auth.id,
             };
 
-            const response = await fetch(
-                "http://localhost:5000/api/product/create",
-                {
-                    method: "POST",
-                    body: JSON.stringify(body),
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: "Bearer " + auth.token,
-                    },
-                }
-            );
+            await fetch("http://localhost:5000/api/product/create", {
+                method: "POST",
+                body: JSON.stringify(body),
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + auth.token,
+                },
+            });
             history.push("/myproducts");
         } catch (error) {
             toast({

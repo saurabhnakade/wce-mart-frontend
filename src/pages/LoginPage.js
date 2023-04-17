@@ -7,6 +7,7 @@ import {
     FormLabel,
     Heading,
     Input,
+    Spinner,
     Stack,
     useToast,
 } from "@chakra-ui/react";
@@ -35,10 +36,13 @@ const LoginPage = () => {
         });
     };
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
+            setIsLoading(true);
             const response = await fetch(
                 "http://localhost:5000/api/user/login",
                 {
@@ -53,9 +57,11 @@ const LoginPage = () => {
                 }
             );
             const user = await response.json();
+            setIsLoading(false);
 
             auth.login(user.id, user.token, user.name);
         } catch (err) {
+            setIsLoading(false);
             toast({
                 title: "Error",
                 description: "Something went wrong. Please try again later.",
@@ -112,8 +118,13 @@ const LoginPage = () => {
                         colorScheme="purple"
                         size="lg"
                         fontSize="md"
+                        isLoading={isLoading}
                     >
-                        Login
+                        {isLoading ? (
+                            <Spinner size="sm" color="white" />
+                        ) : (
+                            "Login"
+                        )}
                     </Button>
 
                     <Button

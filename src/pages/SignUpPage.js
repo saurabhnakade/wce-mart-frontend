@@ -7,6 +7,7 @@ import {
     FormLabel,
     Heading,
     Input,
+    Spinner,
     Stack,
     useToast,
 } from "@chakra-ui/react";
@@ -16,6 +17,8 @@ import AuthContext from "../context/auth-context";
 const SignUpPage = () => {
     const auth = useContext(AuthContext);
     const toast = useToast();
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const [formData, setFormData] = useState({
         username: "",
@@ -44,6 +47,7 @@ const SignUpPage = () => {
         event.preventDefault();
 
         try {
+            setIsLoading(true);
             const response = await fetch(
                 "http://localhost:5000/api/user/register",
                 {
@@ -62,8 +66,11 @@ const SignUpPage = () => {
 
             const user = await response.json();
 
+            setIsLoading(false);
+
             auth.login(user.id, user.token, user.name);
         } catch (err) {
+            setIsLoading(false);
             toast({
                 title: "Error",
                 description: "Something went wrong. Please try again later.",
@@ -140,8 +147,13 @@ const SignUpPage = () => {
                         colorScheme="purple"
                         size="lg"
                         fontSize="md"
+                        isLoading={isLoading}
                     >
-                        Sign up
+                        {isLoading ? (
+                            <Spinner size="sm" color="white" />
+                        ) : (
+                            "Signup"
+                        )}
                     </Button>
 
                     <Button
