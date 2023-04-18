@@ -142,7 +142,10 @@ const CreateProduct = () => {
                                 alt="Product Image"
                                 mt={2}
                                 borderRadius="md"
+                                boxSize="440px"
                                 objectFit="contain"
+                                maxW="100%"
+                                maxH="100%"
                             />
                         )}
                     </FormControl>

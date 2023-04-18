@@ -16,10 +16,12 @@ import {
     Center,
     Spinner,
 } from "@chakra-ui/react";
-import { FaTrash } from "react-icons/fa";
+import { ref, deleteObject } from "firebase/storage";
+import { FaSearch, FaTrash } from "react-icons/fa";
 import AuthContext from "../context/auth-context";
 import url from "../firebase/config";
 import { storage } from "../firebase/firebase";
+import { NavLink } from "react-router-dom";
 
 const ProductCard = ({ product, onDelete }) => {
     const [isDeleting, setIsDeleting] = useState(false);
@@ -61,6 +63,17 @@ const ProductCard = ({ product, onDelete }) => {
             <Text mt={4} fontSize="xl" fontWeight="bold">
                 {product.name}
             </Text>
+            <NavLink to={`/product/${product.id}`}>
+                <Button
+                    colorScheme="green"
+                    size="sm"
+                    mt={4}
+                    mr={8}
+                    leftIcon={<FaSearch />}
+                >
+                    View
+                </Button>
+            </NavLink>
             <Button
                 colorScheme="red"
                 size="sm"
@@ -137,6 +150,16 @@ const MyProducts = () => {
 
     const handleDelete = async (productId, productUrl) => {
         try {
+            const baseurl =
+                "https://firebasestorage.googleapis.com/v0/b/college-mart-1a4f7.appspot.com/o/";
+            let imagePath = productUrl.replace(baseurl, "");
+            const indexOfEndPath = imagePath.indexOf("?");
+            imagePath = imagePath.substring(0, indexOfEndPath);
+            imagePath = imagePath.replace("%2F", "/");
+
+            const desertRef = ref(storage, imagePath);
+            await deleteObject(desertRef);
+
             const res = await fetch(`${url}/api/product/delete/${productId}`, {
                 method: "DELETE",
                 headers: {

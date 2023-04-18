@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import Navbar from "./components/Navbar";
 import CreateProduct from "./pages/CreateProduct";
@@ -16,9 +16,18 @@ import {
 import HomePage from "./pages/HomePage";
 import AuthContext from "./context/auth-context";
 import useAuth from "./hooks/auth-hook";
+import url from "./firebase/config";
 
 const App = () => {
     const { token, login, logout, id, name } = useAuth();
+
+    useEffect(() => {
+        const start = async () => {
+            await fetch(`${url}/`);
+            console.log("Hello");
+        };
+        start();
+    }, []);
 
     let routes;
     if (token) {

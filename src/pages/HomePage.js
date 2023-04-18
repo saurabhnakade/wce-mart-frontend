@@ -7,7 +7,9 @@ import {
     VStack,
     Flex,
     Text,
+    Icon,
 } from "@chakra-ui/react";
+import { FaSignInAlt, FaUserPlus } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
 function HomePage() {
@@ -22,6 +24,12 @@ function HomePage() {
                 color="black"
                 justifyContent={"center"}
             >
+                <Image
+                    src="/logo-wce.webp"
+                    alt="WCE Mart logo"
+                    boxSize="160px"
+                    mr={20}
+                />
                 <Text
                     fontSize="70"
                     fontWeight="bold"
@@ -40,8 +48,8 @@ function HomePage() {
                             borderRadius={70}
                             src="https://www.graphicsprings.com/filestorage/stencils/3055581cff0526602142cbb0bfba9fca.png?width=500&height=500"
                             alt="placeholder"
-                            height={750}
-                            width={860}
+                            height={600}
+                            width={750}
                         />
                         <VStack spacing={35}>
                             <NavLink to="/signup">
@@ -53,6 +61,7 @@ function HomePage() {
                                     width={60}
                                     height={20}
                                     borderRadius={20}
+                                    leftIcon={<FaUserPlus />}
                                 >
                                     Sign up
                                 </Button>
@@ -66,6 +75,7 @@ function HomePage() {
                                     width={60}
                                     height={20}
                                     borderRadius={20}
+                                    leftIcon={<Icon as={FaSignInAlt} />}
                                 >
                                     Login
                                 </Button>
