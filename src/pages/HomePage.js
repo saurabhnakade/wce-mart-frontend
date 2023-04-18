@@ -9,10 +9,12 @@ import {
     Text,
     Icon,
 } from "@chakra-ui/react";
+import { useLayoutEffect } from "react";
 import { FaSignInAlt, FaUserPlus } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
 function HomePage() {
+    useLockBodyScroll();
     return (
         <>
             <Flex
@@ -46,7 +48,7 @@ function HomePage() {
                             mb={20}
                             mr={75}
                             borderRadius={70}
-                            src="https://www.graphicsprings.com/filestorage/stencils/3055581cff0526602142cbb0bfba9fca.png?width=500&height=500"
+                            src={process.env.PUBLIC_URL + "/cart-logo.png"}
                             alt="placeholder"
                             height={600}
                             width={750}
@@ -86,6 +88,17 @@ function HomePage() {
             </Box>
         </>
     );
+}
+
+function useLockBodyScroll() {
+    useLayoutEffect(() => {
+        // Get original body overflow
+        const originalStyle = window.getComputedStyle(document.body).overflow;
+        // Prevent scrolling on mount
+        document.body.style.overflow = "hidden";
+        // Re-enable scrolling when component unmounts
+        return () => (document.body.style.overflow = originalStyle);
+    }, []); // Empty array ensures effect is only run on mount and unmount
 }
 
 export default HomePage;
