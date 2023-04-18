@@ -79,7 +79,7 @@ const Product = () => {
                 title: "Contact",
                 description: `${user.name + " → " + user.mobile}`,
                 status: "info",
-                duration: null,
+                duration: 12000,
                 isClosable: true,
             });
         } catch (err) {
