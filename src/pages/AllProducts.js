@@ -9,11 +9,14 @@ import {
     useToast,
     Spinner,
     Center,
+    InputLeftElement,
+    InputGroup,
 } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import AuthContext from "../context/auth-context";
 import url from "../firebase/config";
+import { SearchIcon } from "@chakra-ui/icons";
 
 const ProductCard = ({ product }) => {
     return (
@@ -64,9 +67,7 @@ const AllProducts = () => {
         const fetchAllProducts = async () => {
             setIsLoading(true);
             try {
-                const response = await fetch(
-                    `${url}/api/product/all`
-                );
+                const response = await fetch(`${url}/api/product/all`);
                 const p = await response.json();
                 if (p.message) {
                     throw new Error("Error");
@@ -99,17 +100,31 @@ const AllProducts = () => {
     const filteredProducts = products.filter((product) =>
         product.name.toLowerCase().includes(searchTerm)
     );
+
     return (
         <Box p={4}>
             <Box pl={20} pt={18}>
-                <Input
-                    mb={4}
-                    placeholder="Search products by name..."
-                    onChange={handleSearch}
-                    value={searchTerm}
-                    style={{ width: "400px" }} // Set the width to your desired size
-                />
+                <InputGroup>
+                    <InputLeftElement pointerEvents="none">
+                        <SearchIcon color="gray.600" />
+                    </InputLeftElement>
+                    <Input
+                        mb={4}
+                        placeholder="Search products by name..."
+                        onChange={handleSearch}
+                        value={searchTerm}
+                        style={{ width: "400px" }} // Set the width to your desired size
+                    />
+                </InputGroup>
             </Box>
+
+            {products.length === 0 && (
+                <Center mt="31vh">
+                    <Box bg="gray.200" p={5} borderRadius="md">
+                        {products.length === 0 && <p>No products present</p>}
+                    </Box>
+                </Center>
+            )}
 
             {isLoading ? (
                 <Center h="100vh">

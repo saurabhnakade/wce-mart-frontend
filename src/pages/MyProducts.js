@@ -22,6 +22,7 @@ import AuthContext from "../context/auth-context";
 import url from "../firebase/config";
 import { storage } from "../firebase/firebase";
 import { NavLink } from "react-router-dom";
+import FloatingActionButton from "../components/FloatingActionButton";
 
 const ProductCard = ({ product, onDelete }) => {
     const [isDeleting, setIsDeleting] = useState(false);
@@ -189,6 +190,13 @@ const MyProducts = () => {
 
     return (
         <Box p={4}>
+            {products.length === 0 && (
+                <Center mt="37vh">
+                    <Box bg="gray.200" p={5} borderRadius="md">
+                        {products.length === 0 && <p>No products present</p>}
+                    </Box>
+                </Center>
+            )}
             {isLoading ? (
                 <Center h="100vh">
                     <Spinner size="xl" />
@@ -204,6 +212,7 @@ const MyProducts = () => {
                     ))}
                 </Grid>
             )}
+            <FloatingActionButton />
         </Box>
     );
 };

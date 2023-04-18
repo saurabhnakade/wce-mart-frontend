@@ -9,9 +9,9 @@ import {
     Text,
     Icon,
 } from "@chakra-ui/react";
-import { useLayoutEffect } from "react";
 import { FaSignInAlt, FaUserPlus } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import useLockBodyScroll from "../hooks/no-scroll";
 
 function HomePage() {
     useLockBodyScroll();
@@ -88,17 +88,6 @@ function HomePage() {
             </Box>
         </>
     );
-}
-
-function useLockBodyScroll() {
-    useLayoutEffect(() => {
-        // Get original body overflow
-        const originalStyle = window.getComputedStyle(document.body).overflow;
-        // Prevent scrolling on mount
-        document.body.style.overflow = "hidden";
-        // Re-enable scrolling when component unmounts
-        return () => (document.body.style.overflow = originalStyle);
-    }, []); // Empty array ensures effect is only run on mount and unmount
 }
 
 export default HomePage;
