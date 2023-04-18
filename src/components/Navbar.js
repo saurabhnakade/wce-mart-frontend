@@ -18,22 +18,22 @@ const Navbar = () => {
         >
             <NavLink to="/all">
                 <Box>
-                <Flex align="center">
-                    <Image
-                        src="/logo-wce.webp"
-                        alt="WCE Mart logo"
-                        boxSize="50px"
-                        mr={2}
-                    />
-                    <Text
-                        fontFamily="heading"
-                        fontSize="4xl"
-                        fontWeight="bold"
-                        letterSpacing="wide"
-                        className="logo-font"
-                    >
-                        WCE &nbsp;MART
-                    </Text>
+                    <Flex align="center">
+                        <Image
+                            src="/logo-wce.webp"
+                            alt="WCE Mart logo"
+                            boxSize="50px"
+                            mr={2}
+                        />
+                        <Text
+                            fontFamily="heading"
+                            fontSize="4xl"
+                            fontWeight="bold"
+                            letterSpacing="wide"
+                            className="logo-font"
+                        >
+                            WCE &nbsp;MART
+                        </Text>
                     </Flex>
                 </Box>
             </NavLink>
@@ -47,6 +47,7 @@ const Navbar = () => {
                                     <Icon as={FaUserCircle} boxSize={6} />
                                 }
                                 colorScheme="purple"
+                                backgroundColor="purple.600"
                                 size="md"
                             >
                                 {auth.name}
