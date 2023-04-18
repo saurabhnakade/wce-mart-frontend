@@ -118,7 +118,7 @@ const AllProducts = () => {
                 </InputGroup>
             </Box>
 
-            {products.length === 0 && (
+            {products.length === 0 && !isLoading && (
                 <Center mt="31vh">
                     <Box bg="gray.200" p={5} borderRadius="md">
                         {products.length === 0 && <p>No products present</p>}
