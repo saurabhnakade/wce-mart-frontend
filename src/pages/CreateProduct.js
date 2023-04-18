@@ -17,6 +17,7 @@ import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../firebase/firebase";
 import { useHistory } from "react-router-dom";
 import url from "../firebase/config";
+import imageCompression from "browser-image-compression";
 
 const CreateProduct = () => {
     const auth = useContext(AuthContext);
@@ -46,15 +47,25 @@ const CreateProduct = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         let imgUrl;
+        let img;
+
+        const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+        };
+
         try {
             setIsLoading(true);
+            img = await imageCompression(product.image, options);
             // Upload images to Firebase Storage
+
             const storageRef = ref(
                 storage,
                 `imagesWM/${Date.now().toString()}`
             );
-            const metadata = { contentType: product.image.type };
-            await uploadBytesResumable(storageRef, product.image, metadata);
+            const metadata = { contentType: img.type };
+            await uploadBytesResumable(storageRef, img, metadata);
             const urlC = await getDownloadURL(storageRef);
             imgUrl = urlC;
 

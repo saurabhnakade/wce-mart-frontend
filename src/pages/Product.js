@@ -107,7 +107,7 @@ const Product = () => {
                                 src={product.image}
                                 alt="Product Image"
                                 boxSize="550px"
-                                objectFit="cover"
+                                objectFit="contain"
                                 maxW="100%"
                                 maxH="100%"
                             />
