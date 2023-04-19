@@ -1,12 +1,33 @@
 import React, { useContext } from "react";
-import { Box, Flex, Text, Button, Stack, Icon, Image } from "@chakra-ui/react";
+import {
+    Box,
+    Flex,
+    Text,
+    Button,
+    Stack,
+    Icon,
+    Image,
+    useToast,
+} from "@chakra-ui/react";
 import AuthContext from "../context/auth-context";
 import { NavLink } from "react-router-dom";
-import { FaSignOutAlt, FaUserCircle } from "react-icons/fa";
+import { FaShoppingBag, FaSignOutAlt, FaUserCircle } from "react-icons/fa";
 import { SmallAddIcon, ViewIcon } from "@chakra-ui/icons";
 
 const Navbar = () => {
     const auth = useContext(AuthContext);
+
+    const toast = useToast();
+
+    const clickHandler = () => {
+        toast({
+            title: `Hello ${auth.name}`,
+            status: "success",
+            duration: 2000,
+            isClosable: true,
+        });
+    };
+
     return (
         <Flex
             as="nav"
@@ -40,46 +61,61 @@ const Navbar = () => {
             <Box>
                 <Stack direction="row" spacing={4}>
                     {auth.isLoggedIn && (
-                        <NavLink to="/all">
+                        <>
                             <Button
                                 disabled
                                 leftIcon={
                                     <Icon as={FaUserCircle} boxSize={6} />
                                 }
+                                onClick={clickHandler}
                                 colorScheme="purple"
                                 backgroundColor="purple.600"
                                 size="md"
                             >
                                 {auth.name}
                             </Button>
-                        </NavLink>
+                            <NavLink to="/all">
+                                <Button
+                                    leftIcon={<FaShoppingBag />}
+                                    colorScheme="purple"
+                                    size="md"
+                                >
+                                    All Products
+                                </Button>
+                            </NavLink>
+
+                            <NavLink to="/myproducts">
+                                <Button
+                                    leftIcon={
+                                        <Icon as={ViewIcon} boxSize={6} />
+                                    }
+                                    colorScheme="purple"
+                                    size="md"
+                                >
+                                    My Products
+                                </Button>
+                            </NavLink>
+                            <NavLink to="/create">
+                                <Button
+                                    leftIcon={
+                                        <Icon as={SmallAddIcon} boxSize={6} />
+                                    }
+                                    colorScheme="purple"
+                                    size="md"
+                                >
+                                    Create Product
+                                </Button>
+                            </NavLink>
+                            <Button
+                                leftIcon={<FaSignOutAlt />}
+                                colorScheme="purple"
+                                size="md"
+                                onClick={auth.logout}
+                            >
+                                Logout
+                            </Button>
+                        </>
                     )}
-                    <NavLink to="/myproducts">
-                        <Button
-                            leftIcon={<Icon as={ViewIcon} boxSize={6} />}
-                            colorScheme="purple"
-                            size="md"
-                        >
-                            My Products
-                        </Button>
-                    </NavLink>
-                    <NavLink to="/create">
-                        <Button
-                            leftIcon={<Icon as={SmallAddIcon} boxSize={6} />}
-                            colorScheme="purple"
-                            size="md"
-                        >
-                            Create Product
-                        </Button>
-                    </NavLink>
-                    <Button
-                        leftIcon={<FaSignOutAlt />}
-                        colorScheme="purple"
-                        size="md"
-                        onClick={auth.logout}
-                    >
-                        Logout
-                    </Button>
                 </Stack>
             </Box>
         </Flex>
