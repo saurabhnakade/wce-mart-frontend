@@ -41,21 +41,18 @@ const SignUpPage = () => {
 
         try {
             setIsLoading(true);
-            const response = await fetch(
-                `${url}/api/user/register`,
-                {
-                    method: "POST",
-                    body: JSON.stringify({
-                        username: formData.username,
-                        name: formData.name,
-                        mobile: formData.mobile,
-                        password: formData.password,
-                    }),
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
+            const response = await fetch(`${url}/api/user/register`, {
+                method: "POST",
+                body: JSON.stringify({
+                    username: formData.username,
+                    name: formData.name,
+                    mobile: formData.mobile,
+                    password: formData.password,
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
 
             const user = await response.json();
             if (user.message === "User Already Exists") {
@@ -114,6 +111,9 @@ const SignUpPage = () => {
                             name="username"
                             value={formData.username}
                             onChange={handleChange}
+                            pattern="[a-zA-Z0-9._%+-]+@walchandsangli\.ac\.in$"
+                            title="walchandsangli.ac.in"
+                            required
                         />
                     </FormControl>
 
