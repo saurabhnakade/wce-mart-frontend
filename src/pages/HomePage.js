@@ -14,7 +14,7 @@ import { NavLink } from "react-router-dom";
 import useLockBodyScroll from "../hooks/no-scroll";
 
 function HomePage() {
-    useLockBodyScroll();
+    // useLockBodyScroll();
     return (
         <>
             <Flex
