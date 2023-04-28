@@ -12,7 +12,7 @@ import {
 import AuthContext from "../context/auth-context";
 import { NavLink } from "react-router-dom";
 import { FaShoppingBag, FaSignOutAlt, FaUserCircle } from "react-icons/fa";
-import { SmallAddIcon, ViewIcon } from "@chakra-ui/icons";
+import { BellIcon, SmallAddIcon, ViewIcon } from "@chakra-ui/icons";
 
 const Navbar = () => {
     const auth = useContext(AuthContext);
@@ -104,6 +104,17 @@ const Navbar = () => {
                                     size="md"
                                 >
                                     Create Product
+                                </Button>
+                            </NavLink>
+                            <NavLink to="/notification">
+                                <Button
+                                    leftIcon={
+                                        <Icon as={BellIcon} w={6} h={6} />
+                                    }
+                                    colorScheme="purple"
+                                    size="md"
+                                >
+                                    Notifications
                                 </Button>
                             </NavLink>
                             <Button

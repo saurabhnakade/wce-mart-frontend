@@ -17,6 +17,7 @@ import HomePage from "./pages/HomePage";
 import AuthContext from "./context/auth-context";
 import useAuth from "./hooks/auth-hook";
 import url from "./firebase/config";
+import Notifications from "./pages/Notifications";
 
 const App = () => {
     const { token, login, logout, id, name } = useAuth();
@@ -44,6 +45,9 @@ const App = () => {
                 </Route>
                 <Route path="/product/:id" exact>
                     <Product />
+                </Route>
+                <Route path="/notification" exact>
+                    <Notifications/>
                 </Route>
                 <Redirect to="/all" />
             </Switch>
