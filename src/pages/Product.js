@@ -89,6 +89,21 @@ const Product = () => {
             const response = await fetch(`${url}/api/user/${userId}`);
             const user = await response.json();
 
+            await fetch(`${url}/api/notifications/create`,{
+                method:"POST",
+                body:JSON.stringify({
+                    id:auth.id,
+                    title:product.title,
+                    price:product.price
+                }),
+                headers: {
+                    "Content-type":"application/json",
+                    Authorization: "Bearer " + auth.token,
+                },
+            })
+
+            console.log("YO")
+
             if (user.message) {
                 throw new Error("Error");
             }

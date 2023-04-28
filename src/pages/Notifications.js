@@ -71,8 +71,8 @@ const Notifications = () => {
                     <>
                         {notifications.map((notification) => {
                             const words = notification.split(" ");
-                            let heading;
-                            let styles;
+                            let heading="Enquiry";
+                            let styles={color:"magenta"};
 
                             let string = words.slice(0, words.length-4).join(" ");
                             let time=words.slice(words.length-3,words.length).join(" ");
