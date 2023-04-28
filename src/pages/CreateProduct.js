@@ -11,6 +11,7 @@ import {
     Image,
     useToast,
     Spinner,
+    Checkbox,
 } from "@chakra-ui/react";
 import AuthContext from "../context/auth-context";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
@@ -28,6 +29,9 @@ const CreateProduct = () => {
         description: "",
         image: "",
         price: "",
+        yearPurchased:"",
+        intermediateUsers:"",
+        negotiable:false
     });
     const [imagePreview, setImagePreview] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -36,6 +40,11 @@ const CreateProduct = () => {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setProduct({ ...product, [name]: value });
+    };
+
+    const handleCheckboxChange = (event) => {
+        const { name, checked } = event.target;
+        setProduct((prevProduct) => ({ ...prevProduct, [name]: checked }));
     };
 
     const handleImageChange = (e) => {
@@ -76,6 +85,9 @@ const CreateProduct = () => {
                 price: product.price,
                 status: "not sold",
                 sellersId: auth.id,
+                yearPurchased:product.yearPurchased,
+                intermediateUsers:product.intermediateUsers,
+                negotiable:product.negotiable
             };
 
             await fetch(`${url}/api/product/create`, {
@@ -168,6 +180,37 @@ const CreateProduct = () => {
                             onChange={handleInputChange}
                             name="price"
                         />
+                    </FormControl>
+                    <FormControl id="yearPurchased" isRequired>
+                        <FormLabel>Year of Purchase</FormLabel>
+                        <Input
+                            type="number"
+                            value={product.yearPurchased}
+                            onChange={handleInputChange}
+                            name="yearPurchased"
+                            min="1990"
+                            max={new Date().getFullYear()}
+                        />
+                    </FormControl>
+                    <FormControl id="intermediateUsers" isRequired>
+                        <FormLabel>Intermediate Users</FormLabel>
+                        <Input
+                            type="number"
+                            value={product.intermediateUsers}
+                            onChange={handleInputChange}
+                            name="intermediateUsers"
+                            min="0"
+                            max="10"
+                        />
+                    </FormControl>
+                    <FormControl id="negotiable">
+                        <Checkbox
+                            isChecked={product.negotiable}
+                            onChange={handleCheckboxChange}
+                            name="negotiable"
+                        >
+                            Negotiable
+                        </Checkbox>
                     </FormControl>
                     <Button
                         type="submit"
