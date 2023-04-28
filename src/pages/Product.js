@@ -15,6 +15,8 @@ import {
     useToast,
     Center,
     Spinner,
+    Input,
+    Flex,
 } from "@chakra-ui/react";
 import { FaShoppingCart } from "react-icons/fa";
 import { useParams } from "react-router-dom";
@@ -27,6 +29,9 @@ const Product = () => {
     const auth = useContext(AuthContext);
 
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingBid, setIsLoadingBid] = useState(false);
+
+    const [bid, setBid] = useState("");
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [product, setProduct] = useState({
@@ -86,6 +91,45 @@ const Product = () => {
             toast({
                 title: "Error",
                 description: "Something went wrong. Please try again later.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+        }
+    };
+
+    const handleBidChange = (e) => {
+        setBid(e.target.value);
+    };
+
+    const handleBid = async () => {
+        setIsLoadingBid(true);
+        try {
+            let body = {
+                productsId: id,
+                biddersId: auth.id,
+                amount: bid,
+            };
+
+            await fetch(`${url}/api/bid/create`, {
+                method: "POST",
+                body: JSON.stringify(body),
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: "Bearer " + auth.token,
+                },
+            });
+            setIsLoadingBid(false);
+            toast({
+                title: "Bid Placed Successfully",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+            });
+        } catch (err) {
+            setIsLoadingBid(false);
+            toast({
+                title: "Not able to place Bid",
                 status: "error",
                 duration: 3000,
                 isClosable: true,
@@ -159,40 +203,89 @@ const Product = () => {
                                 </Box>
                             </Box>
                             <Box>
-                                    <Text fontSize="lg" color="gray.600" mt={10} mb={6} fontWeight="bold">
-                                        Year of purchase:{" "}
-                                        {product.yearPurchased}
-                                    </Text>
-                                    <Text fontSize="lg" color="gray.600" mb={6} fontWeight="bold">
-                                        Intermediate users:{" "}
-                                        {product.intermediateUsers}
-                                    </Text>
-                                    <Text fontSize="lg" color="gray.600" mb={6} fontWeight="bold">
-                                        Negotiable:{" "}
-                                        {product.negotiable ? "Yes" : "No"}
-                                    </Text>
-                                    {product.bids &&
-                                        product.bids.length > 0 && (
-                                            <Box>
-                                                <Text
-                                                    fontSize="lg"
-                                                    fontWeight="bold"
+                                <Text
+                                    fontSize="lg"
+                                    color="gray.600"
+                                    mt={10}
+                                    mb={6}
+                                    fontWeight="bold"
+                                >
+                                    Year of purchase: {product.yearPurchased}
+                                </Text>
+                                <Text
+                                    fontSize="lg"
+                                    color="gray.600"
+                                    mb={6}
+                                    fontWeight="bold"
+                                >
+                                    Intermediate users:{" "}
+                                    {product.intermediateUsers}
+                                </Text>
+                                <Text
+                                    fontSize="lg"
+                                    color="gray.600"
+                                    mb={6}
+                                    fontWeight="bold"
+                                >
+                                    Negotiable:{" "}
+                                    {product.negotiable ? "Yes" : "No"}
+                                </Text>
+                                {product.negotiable &&  product.sellersId !== auth.id&& (
+                                    <Box>
+                                        <Box>
+                                            <Text
+                                                fontSize="lg"
+                                                fontWeight="bold"
+                                                mb={6}
+                                            >
+                                                Place a Bid
+                                            </Text>
+                                            <Flex alignItems="center">
+                                                <Input
+                                                    type="number"
+                                                    min="0"
+                                                    max="10"
+                                                    placeholder="Enter Bid Amount"
+                                                    width="200px"
+                                                    size="sm"
+                                                    mr={8}
+                                                    value={bid}
+                                                    onChange={handleBidChange}
+                                                />
+                                                <Button
+                                                    colorScheme="green"
+                                                    size="sm"
+                                                    onClick={handleBid}
                                                 >
-                                                    Bids:
+                                                    {isLoadingBid ? (
+                                                        <Spinner
+                                                            size="sm"
+                                                            color="white"
+                                                        />
+                                                    ) : (
+                                                        "Submit"
+                                                    )}
+                                                </Button>
+                                            </Flex>
+                                        </Box>
+                                    </Box>
+                                )}
+                                {  product.sellersId === auth.id&&product.bids && product.bids.length > 0 && (
+                                    <Box>
+                                        <Text fontSize="lg" fontWeight="bold" mb={3}>
+                                            Bids:
+                                        </Text>
+                                        {product.bids.map((bid) => (
+                                            <Box key={bid.bidId}>
+                                                <Text fontSize="lg">
+                                                    Bidder ID: {bid.bidderId},
+                                                    Amount: ₹ {bid.amount}
                                                 </Text>
-                                                {product.bids.map((bid) => (
-                                                    <Box key={bid.bidId}>
-                                                        <Text fontSize="lg">
-                                                            Bidder ID:{" "}
-                                                            {bid.bidderId},
-                                                            Amount: ₹{" "}
-                                                            {bid.amount}
-                                                        </Text>
-                                                    </Box>
-                                                ))}
                                             </Box>
-                                        )}
-                                </Box>
+                                        ))}
+                                    </Box>
+                                )}
+                            </Box>
                         </Box>
                     </Grid>
 
