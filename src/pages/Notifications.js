@@ -72,25 +72,20 @@ const Notifications = () => {
                         {notifications.map((notification) => {
                             const words = notification.split(" ");
                             console.log(words);
-                            let string;
                             let heading;
-                            let time;
                             let styles;
 
-                            if(words.length===17){
+                            let string = words.slice(0, words.length-4).join(" ");
+                            let time=words.slice(words.length-3,words.length).join(" ");
+
+                            if(notification.includes("accepted")===17){
                                 heading="Accepted";
-                                string = words.slice(0, 13).join(" ");
-                                time=words.slice(14,17).join(" ");
                                 styles={color:"green"};
-                            }else if(words.length===13){
+                            }else if(notification.includes("rejected")){
                                 heading="Rejected"
-                                string = words.slice(0, 9).join(" ");
-                                time=words.slice(10,13).join(" ");
                                 styles={color:"red"};
-                            }else if(words.length===12){
+                            }else if(notification.includes("received")){
                                 heading="Received"
-                                string = words.slice(0, 8).join(" ");
-                                time=words.slice(9,12).join(" ");
                                 styles={color:"blue"};
                             }
 
