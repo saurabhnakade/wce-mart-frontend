@@ -31,7 +31,6 @@ const Notifications = () => {
                     }
                 );
                 const notificationObject = await notificationsPromise.json();
-                console.log(notificationObject);
                 setNotifications(notificationObject.notifications);
                 setIsLoading(false);
             } catch (err) {
@@ -70,20 +69,45 @@ const Notifications = () => {
                     </Center>
                 ) : (
                     <>
-                        {notifications.map((notification) => (
-                            <Box
-                                key={notification.id}
-                                bg="white"
-                                p={4}
-                                borderRadius="md"
-                                mb={4}
-                                boxShadow="sm"
-                            >
-                                {/* <Heading as="h2" size="md" mb={2}>{notification.title}</Heading> */}
-                                <Text mb={2}>{notification}</Text>
-                                {/* <Text color="gray.500">{notification.date}</Text> */}
-                            </Box>
-                        ))}
+                        {notifications.map((notification) => {
+                            const words = notification.split(" ");
+                            console.log(words);
+                            let string;
+                            let heading;
+                            let time;
+                            let styles;
+
+                            if(words.length===17){
+                                heading="Accepted";
+                                string = words.slice(0, 13).join(" ");
+                                time=words.slice(14,17).join(" ");
+                                styles={color:"green"};
+                            }else if(words.length===13){
+                                heading="Rejected"
+                                string = words.slice(0, 9).join(" ");
+                                time=words.slice(10,13).join(" ");
+                                styles={color:"red"};
+                            }else if(words.length===12){
+                                heading="Received"
+                                string = words.slice(0, 8).join(" ");
+                                time=words.slice(9,12).join(" ");
+                                styles={color:"blue"};
+                            }
+
+                            return(
+                                <Box
+                                    key={notification.id}
+                                    bg="white"
+                                    p={4}
+                                    borderRadius="md"
+                                    mb={4}
+                                    boxShadow="sm"
+                                >
+                                    <Heading style={styles} as="h2" size="md" mb={2}>{heading}</Heading>
+                                    <Text mb={2}>{string}</Text>
+                                    <Text color="gray.500">{time}</Text>
+                                </Box>
+                        )})}
                     </>
                 )}
             </Flex>

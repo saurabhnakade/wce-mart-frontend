@@ -11,7 +11,6 @@ import {
 } from "@chakra-ui/react";
 import { FaSignInAlt, FaUserPlus } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-import useLockBodyScroll from "../hooks/no-scroll";
 
 function HomePage() {
     // useLockBodyScroll();
