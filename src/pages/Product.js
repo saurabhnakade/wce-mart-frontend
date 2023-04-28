@@ -328,6 +328,25 @@ const Product = () => {
                                     )}
                                 {product.sellersId === auth.id &&
                                     product.bids &&
+                                    product.bids.length === 0 && (<Box
+                                        pr={4}
+                                        pl={4}
+                                        pt={1}
+                                        pb={1}
+                                        mb={3}
+                                        borderRadius="md"
+                                        bg="gray.100"
+                                        display="flex"
+                                        width={180}
+                                        alignItems="center"
+                                        justifyContent="space-between"
+                                    >
+                                        <Text fontSize="lg">
+                                            No Bids Received
+                                        </Text></Box>)}
+                                {product.sellersId === auth.id &&
+                                    product.bids &&
+                                    product.bids.length > 0 &&
                                     allBids.bids.map((bid) => (
                                         <Box
                                             key={bid.id}
