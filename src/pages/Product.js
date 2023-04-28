@@ -39,7 +39,7 @@ const Product = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [product, setProduct] = useState({
-        title: "",
+        name: "",
         description: "",
         price: "",
         image: "",
@@ -89,11 +89,13 @@ const Product = () => {
             const response = await fetch(`${url}/api/user/${userId}`);
             const user = await response.json();
 
+            console.log(product.title);
+
             await fetch(`${url}/api/notifications/create`,{
                 method:"POST",
                 body:JSON.stringify({
                     id:auth.id,
-                    title:product.title,
+                    title:product.name,
                     price:product.price
                 }),
                 headers: {
@@ -101,8 +103,6 @@ const Product = () => {
                     Authorization: "Bearer " + auth.token,
                 },
             })
-
-            console.log("YO")
 
             if (user.message) {
                 throw new Error("Error");
