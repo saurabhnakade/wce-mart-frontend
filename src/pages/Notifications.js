@@ -71,7 +71,6 @@ const Notifications = () => {
                     <>
                         {notifications.map((notification) => {
                             const words = notification.split(" ");
-                            console.log(words);
                             let heading;
                             let styles;
 
