@@ -77,7 +77,7 @@ const Notifications = () => {
                             let string = words.slice(0, words.length-4).join(" ");
                             let time=words.slice(words.length-3,words.length).join(" ");
 
-                            if(notification.includes("accepted")===17){
+                            if(notification.includes("accepted")){
                                 heading="Accepted";
                                 styles={color:"green"};
                             }else if(notification.includes("rejected")){
