@@ -326,7 +326,7 @@ const Product = () => {
                                             </Box>
                                         </Box>
                                     )}
-                                {product.sellersId === auth.id &&
+                                {product.negotiable && product.sellersId === auth.id &&
                                     product.bids &&
                                     product.bids.length === 0 && (<Box
                                         pr={4}
