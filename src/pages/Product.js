@@ -158,6 +158,41 @@ const Product = () => {
                                     )}
                                 </Box>
                             </Box>
+                            <Box>
+                                    <Text fontSize="lg" color="gray.600" mt={10} mb={6} fontWeight="bold">
+                                        Year of purchase:{" "}
+                                        {product.yearPurchased}
+                                    </Text>
+                                    <Text fontSize="lg" color="gray.600" mb={6} fontWeight="bold">
+                                        Intermediate users:{" "}
+                                        {product.intermediateUsers}
+                                    </Text>
+                                    <Text fontSize="lg" color="gray.600" mb={6} fontWeight="bold">
+                                        Negotiable:{" "}
+                                        {product.negotiable ? "Yes" : "No"}
+                                    </Text>
+                                    {product.bids &&
+                                        product.bids.length > 0 && (
+                                            <Box>
+                                                <Text
+                                                    fontSize="lg"
+                                                    fontWeight="bold"
+                                                >
+                                                    Bids:
+                                                </Text>
+                                                {product.bids.map((bid) => (
+                                                    <Box key={bid.bidId}>
+                                                        <Text fontSize="lg">
+                                                            Bidder ID:{" "}
+                                                            {bid.bidderId},
+                                                            Amount: ₹{" "}
+                                                            {bid.amount}
+                                                        </Text>
+                                                    </Box>
+                                                ))}
+                                            </Box>
+                                        )}
+                                </Box>
                         </Box>
                     </Grid>
 
