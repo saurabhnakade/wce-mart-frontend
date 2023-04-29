@@ -4,12 +4,14 @@ import {
     Center,
     Flex,
     Heading,
+    Icon,
     Spinner,
     Text,
     useToast,
 } from "@chakra-ui/react";
 import url from "../firebase/config";
 import AuthContext from "../context/auth-context";
+import { MdClose } from "react-icons/md";
 
 const Notifications = () => {
     const [notifications, setNotifications] = useState([]);
@@ -48,6 +50,29 @@ const Notifications = () => {
         fetchNotifications();
     }, [auth,toast]);
 
+    const handleDelete=async (index)=>{
+        const newNot=[...notifications];
+        newNot.splice(index,1)
+        setNotifications(newNot);
+
+        try{
+            await fetch(`${url}/api/notifications/${index}`,{
+                method:"DELETE",
+                body:JSON.stringify({
+                    id:auth.id
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + auth.token,
+                },
+
+            })
+
+        }catch(err){
+
+        }
+    }
+
     return (
         <Box bg="gray.100" minH="100vh">
             <Flex direction="column" p={6} bg="gray.100">
@@ -69,7 +94,7 @@ const Notifications = () => {
                     </Center>
                 ) : (
                     <>
-                        {notifications.map((notification) => {
+                        {notifications.map((notification,index) => {
                             const words = notification.split(" ");
                             let heading="Enquiry";
                             let styles={color:"magenta"};
@@ -90,13 +115,22 @@ const Notifications = () => {
 
                             return(
                                 <Box
-                                    key={notification.id}
+                                    key={(index*200)+27}
                                     bg="white"
                                     p={4}
                                     borderRadius="md"
                                     mb={4}
                                     boxShadow="sm"
+                                    position="relative"
                                 >
+                                    <Icon
+                                        as={MdClose}
+                                        position="absolute"
+                                        top={3}
+                                        right={3}
+                                        cursor="pointer"
+                                        onClick={()=>handleDelete(index)}
+                                    />
                                     <Heading style={styles} as="h2" size="md" mb={2}>{heading}</Heading>
                                     <Text mb={2}>{string}</Text>
                                     <Text color="gray.500">{time}</Text>

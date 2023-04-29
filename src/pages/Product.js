@@ -109,10 +109,9 @@ const Product = () => {
             }
 
             toast({
-                title: "Contact",
-                description: `${user.name + " → " + user.mobile}`,
+                title: "Check your notifications",
                 status: "info",
-                duration: 12000,
+                duration: 5000,
                 isClosable: true,
             });
         } catch (err) {
