@@ -7,7 +7,6 @@ import {
     Grid,
     Input,
     useToast,
-    Spinner,
     Center,
     InputLeftElement,
     InputGroup,
@@ -17,6 +16,7 @@ import { NavLink } from "react-router-dom";
 import AuthContext from "../context/auth-context";
 import url from "../firebase/config";
 import { SearchIcon } from "@chakra-ui/icons";
+import Shimmer from "../components/Shimmer";
 
 const ProductCard = ({ product }) => {
     return (
@@ -127,9 +127,7 @@ const AllProducts = () => {
             )}
 
             {isLoading ? (
-                <Center h="100vh">
-                    <Spinner size="xl" />
-                </Center>
+                <Shimmer/>
             ) : (
                 <Grid templateColumns="repeat(3, 1fr)" gap={4}>
                     {filteredProducts.map((product) => (

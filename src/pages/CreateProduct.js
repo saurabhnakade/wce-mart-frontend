@@ -29,9 +29,9 @@ const CreateProduct = () => {
         description: "",
         image: "",
         price: "",
-        yearPurchased:"",
-        intermediateUsers:"",
-        negotiable:false
+        yearPurchased: "",
+        intermediateUsers: "",
+        negotiable: false,
     });
     const [imagePreview, setImagePreview] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -85,9 +85,9 @@ const CreateProduct = () => {
                 price: product.price,
                 status: "not sold",
                 sellersId: auth.id,
-                yearPurchased:product.yearPurchased,
-                intermediateUsers:product.intermediateUsers,
-                negotiable:product.negotiable
+                yearPurchased: product.yearPurchased,
+                intermediateUsers: product.intermediateUsers,
+                negotiable: product.negotiable,
             };
 
             await fetch(`${url}/api/product/create`, {
@@ -108,6 +108,7 @@ const CreateProduct = () => {
             history.push("/myproducts");
         } catch (error) {
             setIsLoading(false);
+            console.log(error.message);
             toast({
                 title: "Error",
                 description: "Something went wrong. Please try again later.",

@@ -5,13 +5,13 @@ import {
     Flex,
     Heading,
     Icon,
-    Spinner,
     Text,
     useToast,
 } from "@chakra-ui/react";
 import url from "../firebase/config";
 import AuthContext from "../context/auth-context";
 import { MdClose } from "react-icons/md";
+import NotificationShimmer from "../components/NotificationShimmer";
 
 const Notifications = () => {
     const [notifications, setNotifications] = useState([]);
@@ -89,9 +89,7 @@ const Notifications = () => {
             )}
 
                 {isLoading ? (
-                    <Center h="100vh">
-                        <Spinner size="xl" />
-                    </Center>
+                    <NotificationShimmer/>
                 ) : (
                     <>
                         {notifications.map((notification,index) => {

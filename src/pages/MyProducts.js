@@ -14,7 +14,6 @@ import {
     ModalBody,
     ModalCloseButton,
     Center,
-    Spinner,
 } from "@chakra-ui/react";
 import { ref, deleteObject } from "firebase/storage";
 import { FaSearch, FaTrash } from "react-icons/fa";
@@ -23,6 +22,7 @@ import url from "../firebase/config";
 import { storage } from "../firebase/firebase";
 import { NavLink } from "react-router-dom";
 import FloatingActionButton from "../components/FloatingActionButton";
+import Shimmer from "../components/Shimmer";
 
 const ProductCard = ({ product, onDelete }) => {
     const [isDeleting, setIsDeleting] = useState(false);
@@ -198,9 +198,7 @@ const MyProducts = () => {
                 </Center>
             )}
             {isLoading ? (
-                <Center h="100vh">
-                    <Spinner size="xl" />
-                </Center>
+                <Shimmer/>
             ) : (
                 <Grid templateColumns="repeat(3, 1fr)" gap={4}>
                     {products.map((product) => (
