@@ -96,7 +96,8 @@ const Product = () => {
                 body:JSON.stringify({
                     id:auth.id,
                     title:product.name,
-                    price:product.price
+                    price:product.price,
+                    sellersId:product.sellersId
                 }),
                 headers: {
                     "Content-type":"application/json",
