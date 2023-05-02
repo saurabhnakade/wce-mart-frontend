@@ -65,7 +65,13 @@ const LoginPage = () => {
                     duration: 3000,
                     isClosable: true,
                 });
-            } else if (user.message) {
+            } else if(user.message==="Not Verified Email"){
+                toast({
+                    title: "Please Verify Your Email",
+                    status: "info",
+                    isClosable: true,
+                });
+            }else if (user.message) {
                 toast({
                     title: "Error",
                     description: "Something Went Wrong",

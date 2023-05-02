@@ -10,13 +10,14 @@ import {
     Stack,
     useToast,
 } from "@chakra-ui/react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import AuthContext from "../context/auth-context";
 import url from "../firebase/config";
 
 const SignUpPage = () => {
     const auth = useContext(AuthContext);
     const toast = useToast();
+    const history=useHistory();
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -74,8 +75,13 @@ const SignUpPage = () => {
             }
 
             setIsLoading(false);
+            toast({
+                title: "Please Verify Your Email",
+                status: "info",
+                isClosable: true,
+            });
+            history.push("/login");
 
-            auth.login(user.id, user.token, user.name);
         } catch (err) {
             setIsLoading(false);
             toast({
