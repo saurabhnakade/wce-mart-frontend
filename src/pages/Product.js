@@ -24,6 +24,7 @@ import { useParams } from "react-router-dom";
 import url from "../firebase/config";
 import AuthContext from "../context/auth-context";
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
+import ShimmerProduct from "../components/ShimmerProduct";
 
 const Product = () => {
     const id = useParams().id;
@@ -208,9 +209,7 @@ const Product = () => {
     return (
         <>
             {isLoading ? (
-                <Center h="100vh">
-                    <Spinner size="xl" />
-                </Center>
+                <ShimmerProduct/>
             ) : (
                 <Box mt={4} p={40}>
                     <Grid templateColumns="repeat(2, 1fr)" gap={8}>
