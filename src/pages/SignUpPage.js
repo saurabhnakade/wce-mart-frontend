@@ -108,7 +108,7 @@ const SignUpPage = () => {
             <Heading as="h1" size="lg" textAlign="center" mb={6}>
                 Sign Up
             </Heading>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}  autocomplete="off">
                 <Stack spacing={4}>
                     <FormControl isRequired>
                         <FormLabel>Username / Email</FormLabel>

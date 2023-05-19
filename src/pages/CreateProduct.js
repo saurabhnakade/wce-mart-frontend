@@ -134,7 +134,7 @@ const CreateProduct = () => {
             <Heading as="h1" size="lg" textAlign="center" mb={6}>
                 Create a Product
             </Heading>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} autocomplete="off">
                 <VStack spacing={4}>
                     <FormControl isRequired id="name">
                         <FormLabel>Name</FormLabel>
