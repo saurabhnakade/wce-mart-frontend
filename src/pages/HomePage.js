@@ -47,10 +47,9 @@ function HomePage() {
                             mb={20}
                             mr={75}
                             borderRadius={70}
-                            src={process.env.PUBLIC_URL + "/cart-logo.png"}
+                            src={process.env.PUBLIC_URL + "/new-cart.png"}
                             alt="placeholder"
                             height={600}
-                            width={750}
                         />
                         <VStack spacing={35}>
                             <NavLink to="/signup">
