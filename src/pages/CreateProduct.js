@@ -194,7 +194,7 @@ const CreateProduct = () => {
                         />
                     </FormControl>
                     <FormControl id="intermediateUsers" isRequired>
-                        <FormLabel>Intermediate Users</FormLabel>
+                        <FormLabel>{`Intermediate Users ( First , Second Hand ...)`}</FormLabel>
                         <Input
                             type="number"
                             value={product.intermediateUsers}
